@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://behavior_scripts/jumping.gd" type="Script" id=1]
+
+[resource]
+resource_local_to_scene = true
+resource_name = "Jumping"
+script = ExtResource( 1 )
+jump_speed = 20.0
+jump_parameter = "parameters/conditions/jump"

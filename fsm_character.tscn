@@ -1,0 +1,329 @@
+[gd_scene load_steps=41 format=2]
+
+[ext_resource path="res://fsm_tree.gd" type="Script" id=1]
+[ext_resource path="res://fsm_node.gd" type="Script" id=2]
+[ext_resource path="res://behavior_scripts/move_body.gd" type="Script" id=3]
+[ext_resource path="res://behavior_scripts/start_jump.gd" type="Script" id=4]
+[ext_resource path="res://behavior_scripts/gravity.gd" type="Script" id=5]
+[ext_resource path="res://behavior_scripts/check_airborne.gd" type="Script" id=6]
+[ext_resource path="res://behavior_scripts/jumping.gd" type="Script" id=7]
+[ext_resource path="res://behavior_resources/check_airborne.tres" type="Resource" id=8]
+[ext_resource path="res://behavior_scripts/punching.gd" type="Script" id=9]
+[ext_resource path="res://behavior_scripts/start_punch.gd" type="Script" id=10]
+[ext_resource path="res://behavior_resources/move_body.tres" type="Resource" id=11]
+
+[sub_resource type="CapsuleShape" id=1]
+
+[sub_resource type="CapsuleMesh" id=2]
+
+[sub_resource type="SpatialMaterial" id=32]
+albedo_color = Color( 0.258824, 1, 0.321569, 1 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "Idle"
+loop = true
+step = 0.0416667
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:translation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, -0.1 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "Jump"
+length = 0.208333
+step = 0.0416667
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0833333, 0.208333 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0.4 ), Vector3( 0, -6.7562e-08, -0.614693 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0833333, 0.208333 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( -6.54588e-06, 0, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:scale")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.0833333, 0.208333 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1.5, 1.5, 0.6 ), Vector3( 0.6, 0.6, 1.4 ), Vector3( 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "Punch"
+step = 0.0416667
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.166667, 0.208333, 0.291667, 0.416667 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 1.70398, -2.38419e-07 ), Vector3( 0, -2.42664, 3.57628e-07 ), Vector3( 0, -3.23538, 4.76837e-07 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.166667, 0.208333, 0.291667 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 1, 2.31195, 0.356121 ), Vector3( 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "Run"
+length = 0.333333
+loop = true
+step = 0.0416667
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -25, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:translation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.166667, 0.333333 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, -0.1 ), Vector3( 0, 0, 0 ) ]
+}
+
+[sub_resource type="PrismMesh" id=31]
+
+[sub_resource type="SpatialMaterial" id=33]
+albedo_color = Color( 1, 0.74902, 0, 1 )
+
+[sub_resource type="Resource" id=26]
+resource_local_to_scene = true
+resource_name = "Jumping"
+script = ExtResource( 7 )
+jump_speed = 15.0
+jump_parameter = "parameters/conditions/jump"
+
+[sub_resource type="Resource" id=29]
+resource_local_to_scene = true
+resource_name = "Gravity"
+script = ExtResource( 5 )
+acceleration = 9.8
+
+[sub_resource type="Resource" id=30]
+resource_local_to_scene = true
+resource_name = "StartPunch"
+script = ExtResource( 10 )
+parameter = "parameters/conditions/punch"
+
+[sub_resource type="AnimationNodeAnimation" id=13]
+animation = "Jump"
+script = ExtResource( 2 )
+behaviors = [ SubResource( 26 ), ExtResource( 8 ), SubResource( 29 ), SubResource( 30 ), ExtResource( 11 ) ]
+
+[sub_resource type="Resource" id=7]
+resource_local_to_scene = true
+resource_name = "MoveBody"
+script = ExtResource( 3 )
+speed = 6.0
+direction_parameter = "parameters/Movement/blend_position"
+
+[sub_resource type="Resource" id=9]
+resource_local_to_scene = true
+resource_name = "StartJump"
+script = ExtResource( 4 )
+parameter = "parameters/conditions/jump"
+
+[sub_resource type="Resource" id=25]
+resource_local_to_scene = true
+resource_name = "CheckAirborne"
+script = ExtResource( 6 )
+parameter = "parameters/conditions/grounded"
+
+[sub_resource type="Resource" id=28]
+resource_local_to_scene = true
+resource_name = "StartPunch"
+script = ExtResource( 10 )
+parameter = "parameters/conditions/punch"
+
+[sub_resource type="AnimationNodeAnimation" id=10]
+is_processing = true
+animation = "Idle"
+
+[sub_resource type="AnimationNodeAnimation" id=11]
+is_processing = true
+animation = "Run"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id=12]
+child_nodes = {
+"0": SubResource( 10 ),
+"1": SubResource( 11 )
+}
+is_processing = true
+blend_point_0/node = SubResource( 10 )
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource( 11 )
+blend_point_1/pos = 0.9
+value_label = "speed"
+script = ExtResource( 2 )
+behaviors = [ SubResource( 7 ), SubResource( 29 ), SubResource( 9 ), SubResource( 25 ), SubResource( 28 ) ]
+
+[sub_resource type="Resource" id=27]
+resource_local_to_scene = true
+resource_name = "Punching"
+script = ExtResource( 9 )
+parameter = "parameters/conditions/punch"
+
+[sub_resource type="AnimationNodeAnimation" id=16]
+animation = "Punch"
+script = ExtResource( 2 )
+behaviors = [ SubResource( 27 ) ]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+advance_condition = "jump"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+advance_condition = "grounded"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=19]
+advance_condition = "punch"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=20]
+advance_condition = "punch"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=21]
+switch_mode = 2
+auto_advance = true
+xfade_time = 0.5
+
+[sub_resource type="AnimationNodeStateMachine" id=22]
+child_nodes = {
+"Jump": SubResource( 13 ),
+"Movement": SubResource( 12 ),
+"Punch": SubResource( 16 )
+}
+states/Jump/node = SubResource( 13 )
+states/Jump/position = Vector2( 604, 36 )
+states/Movement/node = SubResource( 12 )
+states/Movement/position = Vector2( 337, 118 )
+states/Punch/node = SubResource( 16 )
+states/Punch/position = Vector2( 604, 179 )
+transitions = [ "Movement", "Jump", SubResource( 17 ), "Jump", "Movement", SubResource( 18 ), "Movement", "Punch", SubResource( 19 ), "Jump", "Punch", SubResource( 20 ), "Punch", "Movement", SubResource( 21 ) ]
+start_node = "Movement"
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=23]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="KinematicBody" type="KinematicBody" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="KinematicBody"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 1.5, 0 )
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="KinematicBody/CollisionShape"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0542667 )
+mesh = SubResource( 2 )
+material/0 = SubResource( 32 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="KinematicBody/CollisionShape/MeshInstance"]
+anims/Idle = SubResource( 3 )
+anims/Jump = SubResource( 4 )
+anims/Punch = SubResource( 5 )
+anims/Run = SubResource( 6 )
+
+[node name="Orientation" type="MeshInstance" parent="KinematicBody/CollisionShape/MeshInstance"]
+transform = Transform( -0.651959, -2.98023e-08, -7.77156e-16, 1.49012e-08, -1, 3.82071e-08, -2.42771e-15, 1.94865e-07, 0.19607, 0, -1.07269, -0.526659 )
+mesh = SubResource( 31 )
+material/0 = SubResource( 33 )
+
+[node name="FSMTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 22 )
+anim_player = NodePath("../KinematicBody/CollisionShape/MeshInstance/AnimationPlayer")
+active = true
+parameters/playback = SubResource( 23 )
+parameters/conditions/grounded = true
+parameters/conditions/jump = false
+parameters/conditions/punch = false
+parameters/Movement/blend_position = 0.0
+script = ExtResource( 1 )
+bodyNode = NodePath("../KinematicBody")
